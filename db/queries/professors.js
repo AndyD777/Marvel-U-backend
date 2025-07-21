@@ -1,9 +1,17 @@
+import db from "./db/client";
+
 export async function getAllProfessors() {
   const { rows } = await db.query(`SELECT * FROM professors`);
   return rows;
 }
 
-export async function createProfessor({ name, email, date_of_hire, profile_image_url, department_id }) {
+export async function createProfessor({
+  name,
+  email,
+  date_of_hire,
+  profile_image_url,
+  department_id,
+}) {
   const {
     rows: [prof],
   } = await db.query(

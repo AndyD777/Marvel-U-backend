@@ -1,4 +1,4 @@
-import db from "#db/client.js";
+import db from "./db/client";
 
 export async function getAllDepartments() {
   const { rows } = await db.query(`SELECT * FROM departments`);
