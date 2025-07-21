@@ -1,5 +1,5 @@
-import { verifyToken } from "#utils/jwt";
-import { getUserById } from "#db/queries/users";
+import { verifyToken } from "../utils/jwt.js";
+import { getUserById } from "../db/queries/users.js";
 
 export default async function getUserFromToken(req, res, next) {
   const auth = req.headers.authorization;

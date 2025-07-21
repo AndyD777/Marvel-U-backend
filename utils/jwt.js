@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 
-const SECRET = process.env.JWT_SECRET;
+const secret = process.env.JWT_SECRET;
 
-export function createToken(payload) {
-  return jwt.sign(payload, SECRET, { expiresIn: "7d" });
+export function createToken(user) {
+  return jwt.sign(user, secret, { expiresIn: "1w" });
 }
 
 export function verifyToken(token) {
-  return jwt.verify(token, SECRET);
+  return jwt.verify(token, secret);
 }
