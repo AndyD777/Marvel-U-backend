@@ -24,9 +24,15 @@ export async function createProfessor({
 }
 
 export async function getProfessorById(id) {
+  const sql = `
+    SELECT professors.*, departments.department AS department_name
+    FROM professors
+    JOIN departments ON professors.department_id = departments.id
+    WHERE professors.id = $1
+  `;
   const {
     rows: [professor],
-  } = await db.query("SELECT * FROM professors WHERE id = $1", [id]);
+  } = await db.query(sql, [id]);
   return professor;
 }
 
