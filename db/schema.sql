@@ -7,7 +7,6 @@ DROP TABLE IF EXISTS professors;
 DROP TABLE IF EXISTS departments;
 DROP TABLE IF EXISTS users;
 
-
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
@@ -16,7 +15,9 @@ CREATE TABLE users (
 
 CREATE TABLE departments (
     id SERIAL PRIMARY KEY,
-    department TEXT NOT NULL UNIQUE
+    department TEXT NOT NULL UNIQUE,
+    banner_image_url TEXT,
+    description TEXT
 );
 
 CREATE TABLE professors (
