@@ -166,8 +166,6 @@ const professorsData = [
 
 async function seed() {
   try {
-    await db.connect();
-
     await db.query("DELETE FROM professors;");
     await db.query("DELETE FROM departments;");
 
