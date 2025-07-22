@@ -37,21 +37,33 @@ export async function getProfessorById(id) {
 }
 
 export async function updateProfessor(id, fields = {}) {
-  const setString = Object.keys(fields)
-    .map((key, index) => `"${key}" = $${index + 1}`)
-    .join(", ");
+  const allowedFields = [
+    "name",
+    "email",
+    "date_of_hire",
+    "profile_image_url",
+    "department_id",
+  ];
+  const updateFields = Object.keys(fields).filter((key) =>
+    allowedFields.includes(key)
+  );
 
-  if (setString.length === 0) {
+  if (updateFields.length === 0) {
     return getProfessorById(id);
   }
+
+  const setString = updateFields
+    .map((key, index) => `"${key}" = $${index + 1}`)
+    .join(", ");
+  const updateValues = updateFields.map((key) => fields[key]);
 
   const {
     rows: [professor],
   } = await db.query(
     `UPDATE professors SET ${setString} WHERE id = $${
-      Object.keys(fields).length + 1
+      updateValues.length + 1
     } RETURNING *`,
-    [...Object.values(fields), id]
+    [...updateValues, id]
   );
   return professor;
 }

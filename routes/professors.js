@@ -33,19 +33,21 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", requireUser, requireBody, async (req, res, next) => {
-  try {
-    if (!req.body.date_of_hire) {
-      return res.status(400).send("Date of hire is required.");
+router.post(
+  "/",
+  requireUser,
+  requireBody(["name", "email", "date_of_hire", "department_id"]),
+  async (req, res, next) => {
+    try {
+      const newProfessor = await createProfessor(req.body);
+      res.status(201).send(newProfessor);
+    } catch (error) {
+      next(error);
     }
-    const newProfessor = await createProfessor(req.body);
-    res.status(201).send(newProfessor);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
-router.put("/:id", requireUser, requireBody, async (req, res, next) => {
+router.put("/:id", requireUser, async (req, res, next) => {
   try {
     const updatedProfessor = await updateProfessor(req.params.id, req.body);
     if (!updatedProfessor) {
