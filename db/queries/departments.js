@@ -5,14 +5,18 @@ export async function getAllDepartments() {
   return rows;
 }
 
-export async function createDepartment(department) {
+export async function createDepartment({
+  department,
+  description,
+  banner_image_url,
+}) {
   const {
     rows: [dept],
   } = await db.query(
-    `INSERT INTO departments (department)
-     VALUES ($1)
+    `INSERT INTO departments (department, description, banner_image_url)
+     VALUES ($1, $2, $3)
      RETURNING *;`,
-    [department]
+    [department, description, banner_image_url]
   );
   return dept;
 }

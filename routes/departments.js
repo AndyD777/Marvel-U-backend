@@ -47,26 +47,36 @@ router.get("/:id/professors", async (req, res, next) => {
   }
 });
 
-router.post("/", requireUser, requireBody, async (req, res, next) => {
-  try {
-    const newDepartment = await createDepartment(req.body);
-    res.status(201).send(newDepartment);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.put("/:id", requireUser, requireBody, async (req, res, next) => {
-  try {
-    const updatedDepartment = await updateDepartment(req.params.id, req.body);
-    if (!updatedDepartment) {
-      return res.status(404).send("Department not found.");
+router.post(
+  "/",
+  requireUser,
+  requireBody(["department", "description", "banner_image_url"]),
+  async (req, res, next) => {
+    try {
+      const newDepartment = await createDepartment(req.body);
+      res.status(201).send(newDepartment);
+    } catch (error) {
+      next(error);
     }
-    res.send(updatedDepartment);
-  } catch (error) {
-    next(error);
   }
-});
+);
+
+router.put(
+  "/:id",
+  requireUser,
+  requireBody(["department", "description", "banner_image_url"]),
+  async (req, res, next) => {
+    try {
+      const updatedDepartment = await updateDepartment(req.params.id, req.body);
+      if (!updatedDepartment) {
+        return res.status(404).send("Department not found.");
+      }
+      res.send(updatedDepartment);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.delete("/:id", requireUser, async (req, res, next) => {
   try {
